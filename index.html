@@ -1,0 +1,1539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Keyword-Based Chatbot</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #ffffff;
+      color: #000000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+    }
+
+    h2 {
+      color: #2F4F6F;
+    }
+
+    #chatbox {
+      width: 100%;
+      max-width: 500px;
+      height: 400px;
+      border: 1px solid #2F4F6F;
+      background: rgba(255, 255, 255, 0.49);
+      overflow-y: auto;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px #2F4F6F;
+    }
+
+    .message {
+      margin: 0.5rem 0;
+      padding: 0.5rem;
+      border-radius: 6px;
+    }
+
+    .user {
+      background-color: #1E3A8A;
+      color: #ffffff;
+      align-self: flex-end;
+    }
+
+    .bot {
+      background-color: #2563EB;
+      color: #ffffff;
+      align-self: flex-start;
+    }
+
+    #userInput {
+      display: flex;
+      width: 100%;
+      max-width: 500px;
+      gap: 0.5rem;
+    }
+
+    #input {
+      flex-grow: 1;
+      padding: 0.5rem;
+      font-size: 1rem;
+      border: 1px solid #2F4F6F;
+      border-radius: 8px;
+      background-color: rgba(255, 255, 255, 0.49);
+      color: #000;
+      box-shadow: 0 2px 4px #2F4F6F;
+    }
+
+    button {
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      border: 1px solid #2F4F6F;
+      border-radius: 8px;
+      background-color: #3B82F6;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #2563EB;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Global Analyzer Chatbot</h2>
+  <div id="chatbox"></div>
+
+  <div id="userInput">
+    <input type="text" id="input" placeholder="Ask something...">
+    <button onclick="sendMessage()">Send</button>
+    <button onclick="clearChat()">Clear</button>
+  </div>
+
+  <script>
+    const chatbotData = [
+
+    //Database analysis
+      
+  {
+    keywords: 
+    [ 
+      "objects"
+    ],
+    response: "There are 8 total objects in the Object Breakdown."
+  },
+  {
+    keywords: 
+    [
+      "which object is referenced the most", 
+      "most referenced object"
+    ],
+    response: "CustomerData is the most referenced object with 6 references."
+  },
+
+  {
+    keywords: 
+    [
+      "reportschemaobject " , 
+       "objects",
+       
+    ],
+    response: "There is 1 Reportschemaobject."
+  },
+  {
+    keywords: 
+    [
+      "reportschemaobject for the object EmployeeData", 
+      
+      ],
+    response: "There is 1 Reportschemaobject."
+  },
+  {
+    keywords: 
+    [
+      "reportschemaobject for the object ExpensesChart", 
+     
+    ],
+    response: "There is 1 Reportschemaobject."
+  },
+  {
+    keywords: 
+    [
+      "reportschemaobject for the object GrowthChart",
+       
+      ],
+    response: "There is 1 Reportschemaobject."
+  },
+  {
+    keywords: 
+    [
+       "reportschemaobject for the object InventoryData", 
+      
+      ],
+    response: "There is 1 Reportschemaobject."
+  },
+  {
+    keywords: 
+    [
+      "reportschemaobject for the object ProfitChart", 
+     
+        ],
+    response: "There is 1 Reportschemaobject."
+  },
+  {
+    keywords: 
+    [
+      "reportschemaobject for the object RevenueChart",
+      
+        ],
+    response: "There is 1 Reportschemaobject."
+  },
+  {
+    keywords: 
+    [
+      " reportschemaobject for the object SalesData",
+       
+      ],
+    response: "There is 1 Reportschemaobject."
+  },
+{
+    keywords:
+     [
+      "Number of Customerdata refrenced", 
+      "Customerdata refrenced",
+      "customerdata refrenced",
+      "total customerdata refrenced",
+      "total Customerdata refrenced"
+    ],
+    response: "CustomerData refrenced is 6."
+  },
+
+{
+    keywords: 
+    [
+      "Number of Employeedata refrenced",
+       "Employeedata refrenced",
+       "employeedata refrenced",
+       "total employeedata refrenced",
+       "total employeedata refrenced"
+      ],
+    response: "Employeedata refrenced is 5."
+  },
+{
+    keywords: 
+    [
+      "Number of profitchart refrenced", 
+      "Profitchart refrenced",
+      "profitchart refrenced",
+      "total profitchart refrenced",
+      "total profitchart refrenced"
+    ],
+    response: "profitchart refrenced is 5."
+  },
+
+{
+    keywords: 
+    [
+      "Number of Inventorydata refrenced",
+      "Number of inventorydata refrenced",
+       "inventorydata refrenced",
+       "Inventorydata refrenced",
+       "inventorydata refrenced",
+       "total inventorydata refrenced",
+       "total inventorydata refrenced"
+      ],
+    response: "profitchart refrenced is 4."
+  },
+
+
+
+{
+    keywords: 
+    [
+      "Number of Revenuechart refrenced",
+      "Number of revenuechart refrenced", 
+      "revenuechart refrenced",
+      "revenuechart refrenced",
+      "revenuechart refrenced",
+      "total revenuechart refrenced",
+      "total revenuechart refrenced"
+    ],
+    response: "Revenuechart refrenced is 3."
+  },
+
+
+{
+    keywords: 
+    [
+      "Number of Expensechart refrenced",
+      "Number of expancechart refrenced", 
+      "expancechart refrenced",
+      "expancechart refrenced",
+      "expansechart refrenced",
+      "total expansechart refrenced",
+      "total expansechart refrenced"
+    ],
+    response: "Expansechart refrenced is 1."
+  },
+
+
+{
+    keywords: 
+    [
+      "Number of Growthchart refrenced",
+      "Number of growthchart refrenced",
+      "growthchart refrenced",
+      "growthchart refrenced",
+      "growthchart refrenced",
+      "total growthchart refrenced",
+      "total growthchart refrenced"
+    ],
+    response: "Growthchart refrenced is 1."
+  },
+
+  
+{
+    keywords: ["Number of Saledata refrenced"],
+    response: "Salesdata refrenced is 1."
+  },
+
+  {
+    keywords: ["which chart is referenced the most", "most referenced chart"],
+    response: "ProfitChart is the most referenced chart with 5 references."
+  },
+  {
+    keywords: ["which table is referenced the most", "most referenced table"],
+    response: "CustomerData is the most referenced table with 6 references."
+  },
+
+{
+    keywords: ["Customerdata referencing"],
+    response: "CustomerData is 2."
+  },
+
+{
+    keywords: ["Employeedata referencing"],
+    response: "Employeedata is 1."
+  },
+{
+    keywords: ["Profitchart referencing"],
+    response: "profitchart is 1."
+  },
+
+{
+    keywords: ["Inventorydata referencing"],
+    response: "Inventorydata is 6."
+  },
+
+{
+    keywords: ["Revenuechart referencing"],
+    response: "Revenuechart is 4."
+  },
+
+
+{
+    keywords: ["Expensechart referencing"],
+    response: "Expansechart is 3."
+  },
+
+
+{
+    keywords: ["Growthchart referencing"],
+    response: "Growthchart is 1."
+  },
+
+  
+{
+    keywords: ["Salesdata referencing"],
+    response: "Salesdata is 3."
+  },
+
+  {
+    keywords: ["which chart is referenced the most", "most referenced chart"],
+    response: "ProfitChart is the most referenced chart with 5 references."
+  },
+  {
+    keywords: ["which table is referenced the most", "most referenced table"],
+    response: "CustomerData is the most referenced table with 6 references."
+  },
+
+  {
+    keywords: ["which object is referencing the most", "most referencing object"],
+    response: "InventoryData is the most referencing object with 6 references."
+  },
+  {
+    keywords: ["which chart is referencing the most", "most referencing chart"],
+    response: "RevenueChart is the most referencing chart with 4 references."
+  },
+  {
+    keywords: ["which table is referencing the most", "most referencing table"],
+    response: "InventoryData is the most referencing table with 6 references."
+  },
+  {
+    keywords: ["which object has the highest contribution", "top contribution analysis"],
+    response: "All 8 objects have equal contribution scores of 1 in Object Contribution Analysis."
+  },
+  {
+    keywords: ["object contribution values", "what are the contribution scores"],
+    response: "Each object (CustomerData, EmployeeData, ExpensesChart, GrowthChart, InventoryData, ProfitChart, RevenueChart, SalesData) has a contribution score of 1."
+  },
+{
+    keywords: ["CustomerData contribution ","EmployeeData contribution ","ExpensesChart contribution","GrowthChart contribution ","InventoryData contribution","ProfitChart contribution","RevenueChart contribution","SalesData contribution"],
+    response: "Contribution value is 1"
+  },
+
+  {
+    keywords: ["how many charts are referenced", "referenced charts count"],
+    response: "There are 5 charts referenced."
+  },
+  {
+    keywords: ["how many tables are referenced", "referenced tables count"],
+    response: "There are 3 tables referenced."
+  },
+  {
+    keywords: ["how many charts are referencing", "referencing charts count"],
+    response: "There are 4 charts referencing other objects."
+  },
+  {
+    keywords: ["how many tables are referencing", "referencing tables count"],
+    response: "There are 4 tables referencing other objects."
+  },
+  {
+    keywords: ["which objects are referenced only once", "least referenced objects"],
+    response: "ExpensesChart, GrowthChart, and SalesData are each referenced only once."
+  },
+  {
+    keywords: ["which objects are referencing only once", "least referencing objects"],
+    response: "EmployeeData, GrowthChart, and ProfitChart are each referencing only once."
+  },
+  {
+    keywords: ["object types filter", "can I filter by object types"],
+    response: "Yes, you can filter the visuals by object types using the 'Object Types' dropdown."
+  },
+  {
+    keywords: ["object names filter", "can I filter by object names"],
+    response: "Yes, you can filter the visuals by specific object names using the 'Object Names' dropdown."
+  },
+  {
+    keywords: ["reports filter", "can I filter by reports"],
+    response: "Yes, you can filter by reports using the 'Reports' dropdown."
+  },
+
+  //Model analysis Page
+   {
+    keywords: ["total workspaces","total workspace"],
+    response: "There is 1 workspace."
+  },
+
+  {
+    keywords: ["total datasources","datasource"],
+    response: "There is 8 datasource."
+  },
+
+  {
+    keywords: ["total reports"],
+    response: "There are 8 reports."
+  },
+  {
+    keywords: ["how many reports are in the model", "total report count"],
+    response: "The model contains 8 reports."
+  },
+  {
+    keywords: ["total tables"],
+    response: "There are 133 tables."
+  },
+
+  
+  {
+    keywords: ["how many tables are in the model", "total table count"],
+    response: "The model contains 133 tables."
+  },
+  
+  {
+    keywords: ["total relationships"],
+    response: "There are 134 relationships."
+  },
+
+  
+  {
+    keywords: ["how many relationships are in the model", "total relationship count"],
+    response: "The model has 134 relationships."
+  },
+  {
+    keywords: ["total columns"],
+    response: "There are 1066 columns."
+  },
+  {
+    keywords: ["total column"],
+    response: "There are 1066 columns."
+  },
+  
+        // Column Breakdown Visual 
+  {
+    keywords: ["which table has most columns", "most columns table","Which table has most columns","Most columns table"],
+    response: "VW_TimeSheetActuals has the most columns with 57."
+  },
+  
+{
+    keywords: ["columns in this VW_TimeSheetActuals table"],
+    response: " there are 57 columns  in this table"
+},
+
+  
+{
+    keywords: ["columns in this US_Accidents_March23 table"],
+    response: " there are 46 columns  in this table"
+},
+
+  
+{
+    keywords: ["columns in this Columns table"],
+    response: " there are 30 columns  in this table"
+},
+
+{
+    keywords: ["columns in this RunHistoryVersion table"],
+    response: " there are 22 columns  in this table"
+},
+
+{
+    keywords: ["columns in this Refreshables table"],
+    response: " there are 20 columns  in this table"
+},
+
+{
+    keywords: ["columns in this Relationship table"],
+    response: " there are 20 columns  in this table"
+},
+
+{
+    keywords: ["columns in this Reports table"],
+    response: " there are 20 columns  in this table"
+},
+
+{
+    keywords: ["columns in this WorkspacePermission table"],
+    response: " there are 20 columns  in this table"
+},
+
+{
+    keywords: ["columns in this WorkspaceUnusedArtifact table"],
+    response: " there are 20 columns  in this table"
+},
+
+{
+    keywords: ["columns in this ReportPermission  table"],
+    response: " there are 19 columns  in this table"
+},
+
+{
+    keywords: ["columns in this Query1 table"],
+    response: " there are 18 columns  in this table"
+},
+
+{
+    keywords: ["columns in this RunHistory table"],
+    response: " there are 18 columns  in this table"
+},
+
+{
+    keywords: ["columns in this VisualContainerFilterJson table"],
+    response: " there are 18 columns  in this table"
+},
+{
+    keywords: ["columns in this VisualContainerFilterJson table"],
+    response: " there are 18 columns  in this table"
+},
+
+{
+    keywords: ["columns in this ReportFile table"],
+    response: " there are 16 columns  in this table"
+},
+
+{
+    keywords: ["columns in this DateTableTemplate_635adab5-f3a0-49ad-b5c1-ecf99bc1ad3a table"],
+    response: " there are 14 columns  in this table"
+},
+  {
+    keywords: ["which table has most columns", "most columns table"],
+    response: "VW_TimeSheetActual has the most columns with 57."
+  },
+  {
+    keywords: ["second most columns", "next table with most columns"],
+    response: "US_Accidents_March has the second most columns with 46."
+  },
+  {
+    keywords: ["how many columns in RunHistoryVersion", "RunHistoryVersion column count"],
+    response: "RunHistoryVersion has 22 columns."
+  },
+  {
+    keywords: ["column breakdown", "column count per table"],
+    response: "Column Breakdown shows number of columns per table, with VW_TimeSheetActual leading with 57."
+  },
+
+                 // Relationship Breakdown Visual 
+
+  {
+    keywords: ["relationship breakdown", "relationship count per table","Relationship breakdown","Relationship count per table"],
+    response: "Relationship Breakdown shows number of relationships per table, with Relationship, ReportPermission, and WorkspacePermission each having 7."
+  },
+  {
+    keywords: ["which table has the most relationships", "table with most relationships"],
+    response: "VW_TimeSheetActuals has the most relationships, with 7 connections."
+  },
+  {
+    keywords: ["which tables have 7 relationships", "tables with most relationships"],
+    response: "Relationship, ReportPermission, and WorkspacePermission each have 7 relationships."
+  },
+  {
+    keywords: ["which table has 6 relationships", "table with six relationships"],
+    response: "Refreshables has 6 relationships."
+  },
+  {
+    keywords: ["which tables have 5 relationships", "tables with five relationships"],
+    response: "Several tables including DemandAssignation, Partition, ResourceDemandA, and VisualContainerTable have 5 relationships each."
+  },
+  {
+    keywords: ["which tables have 3 relationships", "three relationship tables"],
+    response: "Columns and DataSource each have 3 relationships."
+  },
+  {
+    keywords: ["which table has 4 relationships", "four relationship tables"],
+    response: "RunHistoryVersionD has 4 relationships."
+  },
+  {
+    keywords: ["filters available", "dropdown filters", "can I filter reports or tables"],
+    response: "Yes, you can filter by Reports and Tables using the dropdowns on the dashboard."
+  },
+  {
+    keywords: ["how to filter reports", "report filter dropdown"],
+    response: "Use the 'Reports' dropdown at the top left to filter visualizations by report."
+  },
+  {
+    keywords: ["how to filter tables", "table filter dropdown"],
+    response: "Use the 'Tables' dropdown to filter visualizations by table."
+  },
+
+{
+    keywords: ["relation in the relationship table", "relation in the reportpermission table","relation in the workspacepermission table"],
+    response: "There are 7 relationship in this table"
+  },
+  
+  
+  {
+    keywords: ["relation in the refreshables table"],
+    response: "There are 6 relationship in this table"
+  },
+  {
+    keywords: ["relation in the demandassignationsample table","relation in the partition table"," relation in the resourcedemandandassignation table","relation in the visualcontainertable table","relation in the visualcontainertablecolumn table"],
+    response: "There are 5 relationship in this table"
+  },
+  
+  {
+    keywords: ["relation in the vw_timesheetactuals table", "relation in the runhistoryversiondetail table"],
+    response: "There are 4 relationship in this table"
+  },
+  
+  {
+    keywords: ["relation in the columns table","relation in the datasource table"," relation in the datasourcetable table","many relation in the fileversion table","relation in the measurescolumns table","relation in the reportfile table","relation in the reports table","relation in the reportsections table"],
+    response: "There are  3 relationship columns in this table"
+  },
+  
+ 
+ 
+ 
+  {
+    keywords: ["relation in the runhistory table","relation in the runhistoryversion table","relation in the runhistoryversion (3) table","relation in the visualcontainer table"],
+    response: "There are 3 runhistory in this table"
+  },
+  
+
+  {
+    keywords: ["relation in the workspaceunusedartifact table","relation in the refreshschedule table"," relation in the refreshscheduledays table","relation in the refreshscheduletimes table"],
+    response: "There are 2 workspaceunusedartifact in this table"
+  },
+  
+  {
+    keywords: ["how many relation in the resourcedatesmaster table"],
+    response: "There are 2 resourcedatesmaster in this table"
+  },
+  {
+    keywords: ["how many relation in the runhistoryversion (2) table"],
+    response: "There are 2 runhistoryversion (2) in this table"
+  },
+  {
+    keywords: ["how many relation in the runhistoryversiondetail (2) table"],
+    response: "There are 2 runhistoryversiondetail (2) in this table"
+  },
+  {
+    keywords: ["how many relation in the visualcontainerfilterjson table"],
+    response: "There are 2 visualcontainerfilterjson in this table"
+  },
+  {
+    keywords: ["how many relation in the workspacelog table"],
+    response: "There are 2 workspacelog in this table"
+  },
+  {
+    keywords: ["how many relation in the query1 table"],
+    response: "There are 1 query1 in this table"
+  },
+  {
+    keywords: ["how many relation in the role table"],
+    response: "There are 1 role in this table"
+  },
+  {
+    keywords: ["how many relation in the sysdiagrams table"],
+    response: "There are 1 sysdiagrams in this table"
+  },
+  {
+    keywords: ["how many relation in the usedunusedcolumns table"],
+    response: "There are 1 usedunusedcolumns in this table"
+  },
+  {
+    keywords: ["how many relation in the user table"],
+    response: "There are 1 user in this table"
+  },
+  {
+    keywords: ["how many relation in the weekdates table"],
+    response: "There are 1 weekdates in this table"
+  },
+
+
+
+  //Report analysis Page
+  {
+    keywords: ["number of report pages"],
+    response: "There are 30 report pages shown in the 'No of Report Page' section."
+  },
+ 
+  {
+    keywords: ["Total visual containers"],
+    response: "There are 303 visual containers listed in the 'No of Visual Container' section."
+  },
+  {
+    keywords: ["number of files"],
+    response: "The dashboard shows 141 files under 'No of File'."
+  },
+  {
+    keywords: ["container breakdown", "which section has most visuals", "most visual containers by section"],
+    response: "'999_Home' section has the most visual containers with a total of 38."
+  },
+  {
+    keywords: ["visual containers in model analysis", "model analysis visuals"],
+    response: "The '001_Model Analysis' section contains 26 visual containers."
+  },
+  {
+    keywords: ["visual containers in version analysis", "version analysis visuals"],
+    response: "The '006_Version Analysis' section contains 26 visual containers."
+  },
+  {
+    keywords: ["visual containers in impact analysis", "impact analysis visuals"],
+    response: "The '003_Impact Analysis' section contains 24 visual containers."
+  },
+  {
+    keywords: ["visual containers in workspace analysis", "workspace analysis visuals"],
+    response: "The '007_Workspace Analysis' section contains 24 visual containers."
+  },
+  {
+    keywords: ["how to filter reports", "report filter dropdown"],
+    response: "Use the 'Reports' dropdown on the left to filter visualizations by report."
+  },
+  {
+    keywords: ["how to filter pages", "page filter dropdown"],
+    response: "Use the 'Pages' dropdown in the middle to filter visualizations by page."
+  },
+
+// Container Breakdown by Section Visual 
+
+ {
+    keywords: ["number of viusal conatiner in 999_Home","no of viusal conatiner in 999_Home"],
+    response: "There are 38 Visual conatiner"
+  },
+  {
+    keywords: ["number of viusal conatiner in 001_Model Analysis","no of viusal conatiner in 001_Model Analysis"],
+    response: "There are 26 Visual conatiner"
+  },
+  {
+    keywords: ["number of viusal conatiner in 006_Version Analysis","no of viusal conatiner in 006_Version Analysis"],
+    response: "There are 26 Visual conatiner"
+  },
+  {
+    keywords: ["number of viusal conatiner in 003_Impact Analysis","no of viusal conatiner in 003_Impact Analysis"],
+    response: "There are 24 Visual conatiner"
+  },
+  
+  
+  {
+    keywords: ["number of viusal conatiner in 002_Report Analysis","no of viusal conatiner in 002_Report Analysis"],
+    response: "There are 22 Visual conatiner"
+  },
+  
+  {
+    keywords: ["number of viusal conatiner in 999_Utilization Dashboard","no of viusal conatiner in 999_Utilization Dashboard"],
+    response: "There are 21 Visual conatiner"
+  },
+  {
+    keywords: ["number of viusal conatiner in 004_Consolidate Analysis","no of viusal conatiner in 004_Consolidate Analysis"],
+    response: "There are 18 Visual conatiner"
+  },
+  {
+    keywords: ["viusal of conatiner in 005_Measure Analysis","no of viusal conatiner in 005_Measure Analysis"],
+    response: "There are 16 Visual conatiner"
+  },
+  {
+    keywords: ["viusal conatiner in 009_Page 1","viusal conatiner in 010_Page 3","viusal conatiner in 999_Refresh History"],
+    response: "There are 10 Visual conatiner"
+  },
+  
+  
+  {
+    keywords: ["viusal conatiner in 999_Page 1","viusal conatiner in 999_Resource Availability Search"],
+    response: "There are 6 Visual conatiner"
+  },
+  
+
+
+
+
+
+  //Impact analysis
+   {
+    keywords: ["used columns"],
+    response: "There are 151 used columns displayed in the 'Used Column' section."
+  },
+  {
+    keywords: ["unused columns"],
+    response: "There are 229 unused columns listed in the 'Unused Column' section."
+  },
+
+
+  {
+    keywords: ["column usage breakdown", "used and unused columns by table", "column status analysis"],
+    response: "The 'Unused Column Breakdown' shows used and unused columns by dataset such as VW_TimeSheetAct and US_Accidents_Mar."
+  },
+  {
+    keywords: ["used and unused in VW_TimeSheetAct", "VW_TimeSheetAct column status"],
+    response: "'VW_TimeSheetAct' has 46 unused and 11 used columns."
+  },
+  {
+    keywords: ["used and unused in US_Accidents_Mar", "US_Accidents_Mar column status"],
+    response: "'US_Accidents_Mar' has 46 unused columns and no listed used columns."
+  },
+  {
+    keywords: ["used and unused in Refreshables", "Refreshables column status"],
+    response: "'Refreshables' has 12 unused and 8 used columns."
+  },
+  {
+    keywords: ["used and unused in Columns", "Columns table usage"],
+    response: "'Columns' has 11 unused and 4 used columns."
+  },
+  {
+    keywords: ["how to filter reports", "report filter dropdown"],
+    response: "Use the 'Reports' dropdown on the left to filter the impact analysis by report."
+  },
+
+
+  // Used Column Breakdown 
+  {
+    keywords: ["used column in  ReportPermission table "],
+    response: "There are 14 column which are used in the table "
+  },
+ 
+  {
+  keywords: ["used column in WorkspaceUnusedArtifact table"
+     
+    ],
+    response: "There are 14 column which are used in the table "
+  },
+  
+  {
+    keywords: [
+      "used column in WorkspacePermission table"
+    ],
+    response: "There are 13 column which are used in the table "
+  },
+  
+  {
+    keywords: [
+     "used column in VW_TimeSheetActuals table"
+    ],
+    response: "There are 11 column which are used in the table "
+  },
+ 
+  {
+    keywords: [
+     "used column in RunHistory table"
+    ],
+    response: "There are 9 column which are used in the table "
+  },
+  
+  {
+    keywords: [
+      "used column in Columns table"
+    ],
+    response: "There are 8 column which are used in the table "
+  },
+  
+  {
+    keywords: [
+     "used column in Refreshables table"
+    ],
+    response: "There are 8 column which are used in the table "
+  },
+  
+  {
+    "keywords": [
+      "used column in RunHistoryVersion table"
+    ],
+    response: "There are 8 column which are used in the table "
+  },
+  
+  {
+    keywords: [
+      "used column in RunHistoryVersion (2) table"
+    ],
+    response: "There are 8 column which are used in the table "
+  },
+ 
+  {
+    keywords: [
+      "used column in Workspace table "
+    ],
+    response: "There are 6 column which are used in the table "
+  },
+  
+  {
+    keywords: [
+      "used column in Query1 table "
+    ],
+    response: "There are 5 column which are used in the table "
+  },
+  
+  {
+    keywords: [
+      "used column in DataSource table"
+    ],
+    response: "There are 4 column which are used in the table "
+  },
+  
+  {
+    keywords: [
+     "used column in DatasourceTable table"
+    ],
+    respons: "There are 4 column which are used in the table "
+  },
+  
+  {
+    keywords: [
+      "used column in MeasuresColumns table"
+    ],
+    response: "There are 4 column which are used in the table "
+  },
+  
+  {
+    keywords: [
+     "used column in ResourceDemandAssignation table"
+    ],
+    response: "There are 4 column which are used in the table "
+  },
+  
+  {
+    keywords: [
+     "used column in ReportFile table"
+    ],
+    response: "There are 3 column which are used in the table "
+  },
+  
+  {
+    keywords: [
+     "used column in ReportSections table"
+    ],
+    response: "There are 3 column which are used in the table "
+  },
+  
+  {
+    keywords: [
+     "used column in ResourceDatesMaster table"
+    ],
+    response: "There are 3 column which are used in the table "
+  },
+  
+  {
+    keywords: [
+      "used column in RunHistoryVersionDetail table "
+    ],
+    response: "There are 3 column which are used in the table "
+  },
+  
+  {
+    keywords: [
+      "used column in RunHistoryVersionDetail (2) table"
+    ],
+    response: "There are 3 column which are used in the table "
+  },
+  
+  {
+    keywords: [
+      "used column in crashdata table "
+    ],
+    response: "There are 2 column which are used in the table "
+  },
+  
+  {
+    keywords: [
+      "used column in Relationship table"
+    ],
+    response: "There are 2 column which are used in the table "
+  },
+  
+  {
+    keywords: [
+      "used column in Reports table "
+    ],
+    response: "There are 2 column which are used in the table "
+  },
+  
+  {
+    keywords: [
+      "used column in  RunHistory (2) table"
+    ],
+    response: "There are 2 column which are used in the table "
+  },
+  
+  {
+    keywords: [
+      "used column in User table"
+    ],
+    response: "There are 2 column which are used in the table "
+  },
+// Unused Column Breakdown visual 
+{
+    keywords: ["Unused column in VW_TimeSheetActuals table"
+      
+    ],
+    response: "There are 46 column which are used in the table "
+ },
+ {
+    keywords: ["Unused column in Columns table"
+      
+    ],
+    response: "There are 22 column which are used in the table"
+ },
+ {
+    keywords: ["Unused column in Relationship  table","Reports  table","VisualContainerFilterJson  table"
+      
+    ],
+    response: "There are 18 column which are used in the table"
+ },
+
+{
+    keywords: ["Unused column in DateTableTemplate_635adab5-f3a0-49ad-b5c1-ecf99bc1ad3a  table"
+      
+    ],
+    response: "There are 14 column which are used in the table "
+ },
+{
+    keywords: ["Unused column in LocalDateTable_445e772a-cc9a-423c-a762-567866b6aac2  table"
+      
+    ],
+  response: "There are 14 column which are used in the table "
+ },
+
+{
+    keywords: ["Unused column in LocalDateTable_d2912053-baf3-4d30-a8ea-194d6c40d871 table"
+      
+    ],
+    response: "There are 14 column which are used in the table "
+ },
+{
+    keywords: ["Unused column in Partition table"
+      
+    ],
+    response: "There are 14 column which are used in the table "
+ },
+{
+    keywords: ["Unused column in ResourceDemandAndAssignation table"
+      
+    ],
+    response: "There are 14 column which are used in the table "
+ },
+
+{
+    keywords: ["Unused column in RunHistoryVersion table"
+      
+    ],
+    response: "There are 14 column which are used in the table "
+ },
+{
+    keywords: ["Unused column in Query1 table"
+      
+    ],
+    response: "There are 13 column which are used in the table "
+ },
+{
+    keywords: ["Unused column in ReportFile  table"
+      
+    ],
+    response: "There are 13 column which are used in the table "
+ },
+
+{
+    keywords: ["Unused column in UsedUnusedColumns  table"
+      
+    ],
+    response: "There are 13 column which are used in the table "
+ },
+{
+    keywords: ["Unused column in Refreshables  table"
+      
+    ],
+    response: "There are 12 column which are used in the table "
+ },
+{
+    keywords: ["Unused column in NWTA_Resource_Practice  table","RunHistoryVersion (3)  table","RunHistoryVersionDetail  table","VisualContainerTableColumn table"
+      
+    ],
+    response: "There are 11 column which are used in the table "
+ },
+ {
+    keywords: ["Unused column in FileVersion  table" ,"MeasuresColumns table","User table",
+      
+    ],
+    response: "There are 10 column which are used in the table "
+ },
+
+ // Consolidate Analysis
+
+{
+    keywords: ["No of Reports","report"],
+    response: "there are 8 reports"
+ },
+
+{
+    keywords: ["Repeat column"],
+    response: "there are 1066 repeat columns"
+ },
+{
+    keywords: ["column used in container"],
+    response: "there are 303 columns which are used in conatiner"
+ },
+
+
+  {
+    keywords: [
+      "Containers in the Report PowerBI Analyzer","Containers in the Report PowerBI Analyzer - AzureSql",
+     
+    ],
+    response: "There are 130 Container in this report"
+  },
+  
+  {
+    keywords: [
+      "Containers in the Report Netwoven Utilization Dashboard",
+     
+    ],
+    response: "There are 21 Container in this report"
+  },
+  {
+    keywords: [
+      "Containers in the Report Refresh History",
+      
+    ],
+    response: "There are 10 Container in this report"
+  },
+  {
+    keywords: [
+      "Containers in the Report ResourceAvailabilityMatrix",
+      
+    ],
+    response: "There are 6 Container in this report"
+  },
+  {
+    keywords: [
+      "Containers in the Report CrashData",
+      
+    ],
+    response: "There are 2 Container in this report"
+  },
+  {
+    keywords: [
+      "Containers in the Report CrashData-CustomSQL",
+     
+    ],
+    response: "There are 2 Container in this report"
+  },
+  {
+    keywords: [
+      "Containers in the Report CrashData-StoredProc",
+     
+    ],
+    response: "There are 2 Container in this report"
+  },
+  {
+    keywords: [
+      "Containers in all reports",
+     
+    ],
+    response: "There are 303 Container in total across all reports"
+  },
+
+// Measure Analysis : 
+
+{
+    keywords: ["total Measures"],
+    response: "there are 87 Measures"
+ },
+
+{
+    keywords: ["total Functions"],
+    response: "there are 25 Functions"
+ },
+
+{
+    keywords: ["measures in VW_TimeSheetActuals"],
+    response: "there are 80 measure in this table"
+  },  
+{
+    keywords: ["measures in KeyMeasures"],
+    response: "there are 3 measure in this table"
+  },  
+{
+    keywords: ["measures in ResourceDemandAndAssignation"],
+    response: "there are 3 measure in this table"
+  }, 
+
+  {
+    keywords: ["measures in ResourceDatesMaster"],
+    response: "there are 1 measure in this table"
+  }, 
+  //version analysis
+   {
+    keywords: ["total workspaces"],
+    response: "There is 1 workspace listed in the 'No of Workspace' section."
+  },                                                                                   
+  {                     
+    keywords: ["total datasource"],
+    response: "There are 8 datasources listed in the 'No of Datasource' section."
+  },
+
+  {
+    keywords: ["total report"],
+    response: "There are 8 reports as indicated under 'No of Report'."
+  },
+{                                                                    
+    keywords: ["table", "table count"],
+    response: "There are 133 tables listed in the 'No of Table' section."
+  },
+{
+    keywords: ["visual container"],
+    response: "There are 303 visual containers listed under 'No of Visual Container'."
+  },
+  {
+    keywords: ["column"],
+    response: "There are 1,066 columns shown in the 'No of Column' section."
+  },
+  {
+    keywords: ["run history breakdown", "run mode stats", "run mode distribution"],
+    response: "The 'RunHistory Breakdown' shows that Extract and Parse each have 7 entries (38.89%), Transform has 2 (11.11%), and Validate has 2 (11.11%)."
+  },
+  {
+    keywords: ["run history details", "object value logs", "object history"],
+    response: "The 'RunHistory Detail' lists multiple objects added under the 'VisualContainer' mode, including action buttons and a bar chart."
+  },
+  {
+    keywords: ["run mode history", "completed vs failed runs", "run mode duration"],
+    response: "The 'RunMode History' shows 10 minutes of completed and 8 minutes of failed runs in the year 2025."
+  },
+  {
+    keywords: ["how to filter dates", "filter by date", "date dropdown"],
+    response: "Use the 'Current Date - Previous Date' dropdown to filter data by date range."
+  },
+  {
+    keywords: ["how to filter run modes", "run mode dropdown"],
+    response: "Use the 'Run Modes' dropdown to filter data based on specific run modes."
+  },
+
+  //Workspace analysis
+  {
+    keywords: ["workspaces", "workspace",],
+    response: "There is 1 workspace listed under 'No of Workspace'."
+  },
+  {
+    keywords: ["users",],
+    response: "There are 3 users shown under 'No of User'."
+  },
+  {
+    keywords: ["workspace breakdown", "workspace name", "workspace pie chart"],
+    response: "The 'Workspace Breakdown' shows that 100% of the data belongs to 'POC - Power BI'."
+  },
+  {
+    keywords: ["workspace roles", "admin vs viewer", "role breakdown"],
+    response: "The 'Workspace Role Breakdown' shows 2 Admins and 1 Viewer."
+  },
+  
+  {
+    keywords: ["artifact usage", "artifact type", "dataset usage"],
+    response: "The 'Artifact Usage Statistics' shows 8 Datasets used, which accounts for 100% of the artifacts."
+  },
+  {
+    keywords: ["how to filter by workspace", "workspace filter dropdown"],
+    response: "Use the 'Workspaces' dropdown to filter visualizations by specific workspace."
+  },
+  {
+    keywords: ["how to filter roles", "role filter dropdown"],
+    response: "Use the 'Roles' dropdown to filter visualizations by user roles."
+  },
+  {
+    keywords: ["how to filter users", "user filter dropdown"],
+    response: "Use the 'Users' dropdown to filter visualizations by individual users."
+  },
+
+  //permission analysis
+  {
+    keywords: ["roles", "roles count", "number of roles"],
+    response: "There are 24 roles displayed under 'No of Role'."
+  },
+{
+    keywords: ["users", "users count", "number of users"],
+    response: "There are 3 users shown under 'No of User'."
+  },
+
+  {
+    keywords: ["groups", "groups count", "number of groups"],
+    response: "There are 4 groups shown under 'No of Group'."
+  },
+
+  {
+    keywords: ["role breakdown", "roles pie chart", "percentage of roles"],
+    response: "The 'Role Breakdown' pie chart shows an equal distribution: 50% Owner and 50% Read roles."
+  },
+  {
+    keywords: ["report role breakdown", "report vs role", "role per report"],
+    response: "The 'Report Breakdown by Role' bar chart shows each report having 2 Owners and 1 Read role assigned."
+  },
+  {
+    keywords: ["how to filter by reports", "report filter dropdown"],
+    response: "Use the 'Reports' dropdown to filter visualizations by specific report."
+  },
+  {
+    keywords: ["how to filter by roles", "role filter dropdown"],
+    response: "Use the 'Roles' dropdown to filter data based on specific role types."
+  },
+  {
+    keywords: ["how to filter by users", "user filter dropdown"],
+    response: "Use the 'Users' dropdown to view permissions for specific users."
+  },
+  {
+    keywords: ["how to filter by groups", "group filter dropdown"],
+    response: "Use the 'Groups' dropdown to filter permissions by specific user groups."
+  },
+
+  //dataset refresh cycle
+   {
+    keywords: ["total refresh", "total refresh attempt", "refresh count","refresh attempt"],
+    response: "There have been 41 total refresh attempts as shown in the 'Total Refresh Attempt' panel."
+  },
+  {
+    keywords: ["last refresh type", "most recent refresh type"],
+    response: "The most recent refresh type is 'OnDemand' as indicated in the 'Last Refresh Type' box."
+  },
+  {
+    keywords: ["last refresh status", "latest status", "last refresh result"],
+    response: "The last refresh status is 'Failed' according to the 'Last Status Refresh' section."
+  },
+  {
+    keywords: ["how many refresh types", "refresh types count"],
+    response: "There are 3 distinct refresh types shown in the 'Refresh Types' summary box."
+  },
+  {
+    keywords: ["refresh history", "refresh chart", "refresh status by date"],
+    response: "The 'Refresh History' chart displays the number of refreshes per day with status as Completed or Failed."
+  },
+  {
+    keywords: ["refresh log details", "view refresh log", "refresh times"],
+    response: "The table on the right shows detailed refresh logs including Report Name, StartTime, EndTime, Status, Type, and Refresh Type."
+  },
+  {
+    keywords: ["how to filter by refresh types", "refresh type filter"],
+    response: "Use the 'Refresh Types' dropdown to filter the dashboard data by refresh type."
+  },
+  {
+    keywords: ["how to filter by dates", "date filter dropdown"],
+    response: "Use the 'Dates' dropdown to filter visualizations by specific dates."
+  },
+
+  //Licenses analysis
+    {
+    keywords: ["how to filter users", "user filter dropdown"],
+    response: "Use the 'Users' dropdown to filter license data based on selected users."
+  },
+  {
+    keywords: ["how to filter by licenses", "license type filter"],
+    response: "Use the 'Licenses' dropdown to filter visualizations by license types."
+  },
+  {
+    keywords: ["how to filter by service plans", "service plan filter"],
+    response: "Use the 'Service Plans' dropdown to filter the data according to specific service plans."
+  },
+  {
+    keywords: ["license status breakdown", "license distribution", "license success vs pending"],
+    response: "The 'License Breakdown' pie chart shows the proportion of licenses with 'Success' and 'PendingProvisioning' statuses."
+  },
+  {
+    keywords: ["total licenses by status", "how many licenses are successful", "pending license count"],
+    response: "According to the chart, 3 licenses (75%) are marked as 'Success' and 1 license (25%) as 'PendingProvisioning'."
+  },
+
+  //complianse analysis
+  {
+    keywords: ["how to filter by endorsements", "endorsement dropdown filter"],
+    response: "Use the 'Endorsements' dropdown to filter compliance data based on endorsement type."
+  },
+  {
+    keywords: ["how to filter by sensitivity labels", "sensitivity label filter"],
+    response: "Use the 'Sensitivity Labels' dropdown to view data by selected sensitivity classifications."
+  },
+  {
+    keywords: ["how to filter by report", "report filter dropdown"],
+    response: "Use the 'Reports' dropdown to filter compliance insights specific to individual reports."
+  },
+  {
+    keywords: ["number of endorsements", "endorsement count"],
+    response: "The dashboard shows a total of 10 endorsements applied across the reports."
+  },
+  {
+    keywords: ["how many sensitivity labels", "sensitivity label total"],
+    response: "The dashboard indicates that there are 10 unique sensitivity labels used."
+  },
+  {
+    keywords: ["number of compliance scans", "scan count"],
+    response: "The 'No of Scans' tile reports that 4 compliance scans have been completed."
+  },
+  {
+    keywords: ["first scan result", "initial scan status"],
+    response: "The 'First Scan Result' was marked as 'Succeeded'."
+  },
+  {
+    keywords: ["last scan result", "final scan status"],
+    response: "The 'Last Scan Result' also shows 'Succeeded', indicating a successful final scan."
+  },
+
+  //DLP policy analysis
+  {
+    keywords: ["how to filter by workload", "workload dropdown filter"],
+    response: "Use the 'Workload' dropdown to filter DLP policies by specific workload types."
+  },
+  {
+    keywords: ["how to filter by distribution status", "distribution status dropdown"],
+    response: "Use the 'Distribution Status' dropdown to view policies based on their current deployment status."
+  },
+  {
+    keywords: ["how to filter by policy name", "policy name dropdown filter"],
+    response: "Use the 'Policy Name' dropdown to view data related to a specific DLP policy."
+  },
+  {
+    keywords: ["how many workloads", "total workload count"],
+    response: "The dashboard shows a total of 10 unique workloads associated with DLP policies."
+  },
+  {
+    keywords: ["total number of DLP policies", "dlp policy count"],
+    response: "There are 10 DLP policies displayed in the DLP Analysis dashboard."
+  },
+  {
+    keywords: ["dlp policy workload types", "workload type count"],
+    response: "The 'No of DLP Policy Workload Type' is reported as 1, suggesting a single unique workload type across DLP policies."
+  },
+  {
+    keywords: ["distribution status count", "number of policy statuses"],
+    response: "There are 2 types of distribution statuses across the DLP policies: Active and Pending."
+  },
+  {
+    keywords: ["how many policies are enabled", "enabled mode policy count"],
+    response: "According to the 'Policy by Mode distribution' chart, 7 policies are in 'Enable' mode."
+  },
+  {
+    keywords: ["how many policies are disabled", "disabled mode policy count"],
+    response: "The 'Policy by Mode distribution' chart indicates that 3 policies are in 'Disable' mode."
+  },
+  {
+    keywords: ["how to read policy details table", "dlp policy details explanation"],
+    response: "The 'Policy Details' table shows each policy's name, distribution status, and associated workload platform."
+  },
+
+  //AI analysis
+   {
+    keywords: ["how to filter by report", "report dropdown filter"],
+    response: "Use the 'Reports' dropdown to filter the questions based on specific reports."
+  },
+  {
+    keywords: ["how to filter by question", "question dropdown filter"],
+    response: "Use the 'Questions' dropdown to view information for a selected question."
+  },
+  {
+    keywords: ["total number of questions", "how many AI questions"],
+    response: "The dashboard displays a total of 5 questions under the Artificial Intelligence section."
+  },
+  {
+    keywords: ["total number of categories", "AI category count"],
+    response: "There are 5 unique question categories shown in the dashboard."
+  },
+  {
+    keywords: ["what are the AI questions", "list of AI questions"],
+    response: "The questions include topics such as Power Query, Data Modeling, Refresh Optimization, Drillthrough, and DAX Functions."
+  },
+  {
+    keywords: ["how to transform columns in Power Query", "column transformation Power BI"],
+    response: "Use the question 'How can I transform columns using Power Query?' for guidance on Power Query transformations."
+  },
+  {
+    keywords: ["how to create relationship between tables", "power bi relationships"],
+    response: "Refer to the question 'How do I create a relationship between two tables in Power BI?' under the Data Modeling category."
+  },
+  {
+    keywords: ["improve refresh time Power BI", "optimize refresh Power BI"],
+    response: "See the question 'How do I improve the refresh time of a large dataset?' categorized under Performance Optimization."
+  },
+  {
+    keywords: ["how to implement drillthrough", "drillthrough in Power BI"],
+    response: "Refer to the question 'How to implement drillthrough in Power BI reports?' under the Visualization category."
+  },
+  {
+    keywords: ["difference between CALCULATE and CALCULATETABLE", "DAX functions comparison"],
+    response: "The question 'What is the difference between CALCULATE and CALCULATETABLE in DAX?' provides clarity on these DAX functions."
+  }
+ ];
+
+    function sendMessage() {
+  const inputField = document.getElementById("input");
+  const userMessage = inputField.value.trim();
+  if (!userMessage) return;
+
+  displayMessage(userMessage, "user");
+
+  const botResponse = getBotResponse(userMessage);
+  displayMessage(botResponse, "bot");
+
+  inputField.value = "";
+}
+
+function displayMessage(message, sender) {
+  const chatbox = document.getElementById("chatbox");
+  const messageElem = document.createElement("div");
+  messageElem.className = `message ${sender}`;
+  messageElem.textContent = `${sender === "user" ? "You" : "Bot"}: ${message}`;
+  chatbox.appendChild(messageElem);
+  chatbox.scrollTop = chatbox.scrollHeight;
+}
+
+function getBotResponse(message) {
+  const lowerMessage = message.toLowerCase();
+  for (const data of chatbotData) {
+    for (const keyword of data.keywords) {
+      if (lowerMessage.includes(keyword.toLowerCase())) {
+        return data.response;
+      }
+    }
+  }
+  return "I'm not sure how to respond to that. Can you rephrase ?";
+}
+
+function clearChat() {
+  document.getElementById("chatbox").innerHTML = "";
+  document.getElementById("input").value = "";
+}
+
+
+document.getElementById("input").addEventListener("keydown", function (event) {
+  if (event.key === "Enter") {
+    event.preventDefault(); 
+    sendMessage();
+  }
+  });
+
+  </script>
+</body>
+</html>
